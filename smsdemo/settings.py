@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'rapidsms',
     'rapidsms.contrib.handlers',
     'rapidsms.contrib.messagelog',
+    'rtwilio',
     'smsgroups',
 )
 
@@ -71,6 +72,15 @@ if DEBUG:
         'rapidsms.contrib.echo.handlers.ping.PingHandler',
     )
 
+if all('TWILIO_%s' % name in os.environ for name in ['ACCOUNT_SID', 'AUTH_TOKEN', 'NUMBER']):
+    INSTALLED_BACKENDS['twilio-backend'] = {
+        'ENGINE': 'rtwilio.outgoing.TwilioBackend',
+        'config': {
+            'account_sid': os.environ['TWILIO_ACCOUNT_SID'],
+            'auth_token': os.environ['TWILIO_AUTH_TOKEN'],
+            'number': os.environ['TWILIO_NUMBER'],
+        }
+    }
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

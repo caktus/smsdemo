@@ -49,6 +49,8 @@ INSTALLED_APPS = (
 
 INSTALLED_BACKENDS = {}
 
+RAPIDSMS_HANDLERS = ()
+
 if DEBUG:
     INSTALLED_APPS += (
         'rapidsms.backends.database',
@@ -58,6 +60,11 @@ if DEBUG:
     INSTALLED_BACKENDS['message_tester'] = {
         'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
     }
+
+    RAPIDSMS_HANDLERS += (
+        'rapidsms.contrib.echo.handlers.echo.EchoHandler',
+        'rapidsms.contrib.echo.handlers.ping.PingHandler',
+    )
 
 
 MIDDLEWARE_CLASSES = (

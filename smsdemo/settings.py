@@ -52,6 +52,7 @@ INSTALLED_BACKENDS = {}
 
 RAPIDSMS_HANDLERS = (
     'smsgroups.handlers.create_group.CreateHandler',
+    'smsgroups.handlers.join_group.JoinHandler',
 )
 
 if DEBUG:

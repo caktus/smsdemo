@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import dj_database_url
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -17,14 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '@w0^p@xah19_(o!*$vrvoh^7!)6)@_m=^0(2q&5$a==+b=&q$y'
+SECRET_KEY = os.environ.get('SECRET_KEY', '@w0^p@xah19_(o!*$vrvoh^7!)6)@_m=^0(2q&5$a==+b=&q$y')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = 'SECRET_KEY' not in os.environ
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(';')
 
 
 # Application definition
@@ -36,7 +38,27 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # External apps
+    'django_tables2',
+    'selectable',
+    # RapidSMS
+    'rapidsms',
+    'rapidsms.contrib.handlers',
+    'rapidsms.contrib.messagelog',
 )
+
+INSTALLED_BACKENDS = {}
+
+if DEBUG:
+    INSTALLED_APPS += (
+        'rapidsms.backends.database',
+        'rapidsms.contrib.httptester',
+    )
+
+    INSTALLED_BACKENDS['message_tester'] = {
+        'ENGINE': 'rapidsms.backends.database.DatabaseBackend',
+    }
+
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -57,10 +79,7 @@ WSGI_APPLICATION = 'smsdemo.wsgi.application'
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    'default': dj_database_url.config(default='postgres:///smsdemo'),
 }
 
 # Internationalization

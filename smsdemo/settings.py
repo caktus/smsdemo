@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'rapidsms',
     'rapidsms.contrib.handlers',
     'rapidsms.contrib.messagelog',
+    'smsgroups',
 )
 
 INSTALLED_BACKENDS = {}

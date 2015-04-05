@@ -17,7 +17,7 @@ class CreateHandler(PatternHandler):
 
         created = False
         while not created:
-            slug = get_random_string(length=10)
+            slug = get_random_string(length=10, allowed_chars='01234567890')
             with transaction.atomic():
                 group, created = Group.objects.get_or_create(slug=slug)
                 if created:

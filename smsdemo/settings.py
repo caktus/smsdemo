@@ -50,7 +50,9 @@ INSTALLED_APPS = (
 
 INSTALLED_BACKENDS = {}
 
-RAPIDSMS_HANDLERS = ()
+RAPIDSMS_HANDLERS = (
+    'smsgroups.handlers.create_group.CreateHandler',
+)
 
 if DEBUG:
     INSTALLED_APPS += (

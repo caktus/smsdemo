@@ -3,6 +3,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 from rapidsms.views import dashboard
+from rtwilio.views import TwilioBackendView
 
 
 urlpatterns = [
@@ -15,6 +16,14 @@ urlpatterns = [
     # Third party URLs
     url(r'^selectable/', include('selectable.urls')),
 ]
+
+if 'twilio-backend' in settings.INSTALLED_BACKENDS:
+    urlpatterns += [
+        url(
+            r'^backend/twilio/$',
+            TwilioBackendView.as_view(backend_name='twilio-backend'),
+        ),
+    ]
 
 if settings.DEBUG:
     urlpatterns += [

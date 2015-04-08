@@ -2,7 +2,7 @@ Building SMS Applications with Django
 =====================================
 
 This repo is the source for the PyCon 2015 sponsor workshop on
-"Building SMS Applications with Django": https://us.pycon.org/2015/schedule/presentation/479/
+`"Building SMS Applications with Django." <https://us.pycon.org/2015/schedule/presentation/479/>`_
 
 
 How to Use this Repo
